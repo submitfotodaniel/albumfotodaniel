@@ -32,6 +32,7 @@
             position: relative;
             background: #222;
             cursor: pointer;
+            border-radius: 0.75rem;
         }
         
         .portfolio-img {
@@ -41,7 +42,10 @@
             object-fit: cover;
         }
 
-        /* Street Hover: Hitam Putih ke Warna */
+        .hero-img {
+            object-position: 50% 30%; 
+        }
+
         .street-item .portfolio-img {
             filter: grayscale(100%);
         }
@@ -50,13 +54,11 @@
             transform: scale(1.08);
         }
 
-        /* Event Hover */
         .event-item:hover .portfolio-img {
             filter: saturate(1.4) contrast(1.1);
             transform: scale(1.05);
         }
 
-        /* Aerial Hover */
         .aerial-item:hover .portfolio-img {
             transform: scale(1.15);
         }
@@ -64,6 +66,7 @@
         .tab-btn {
             opacity: 0.5;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         .tab-btn.active {
             opacity: 1;
@@ -72,7 +75,7 @@
         }
 
         .hidden-tab {
-            display: none;
+            display: none !important;
         }
 
         .fade-in-up {
@@ -103,7 +106,10 @@
     <!-- Hero Section -->
     <header id="home" class="relative h-screen flex items-center justify-center overflow-hidden bg-black">
         <div class="absolute inset-0 opacity-70 scale-105">
-            <img src="images/hero_main.jpg" onerror="this.src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000'" alt="Foto Utama Daniel" class="w-full h-full object-cover">
+            <img src="images/hero_main.jpg" 
+                 onerror="this.src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000'" 
+                 alt="Foto Utama Daniel" 
+                 class="w-full h-full object-cover hero-img">
         </div>
         <div class="relative z-10 text-center px-4 fade-in-up">
             <span class="text-white text-xs uppercase tracking-[0.5em] mb-4 block opacity-80">Visual Storyteller</span>
@@ -121,68 +127,64 @@
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
                 <div>
                     <h2 class="text-5xl md:text-7xl mb-4">Curated Works</h2>
-                    <p class="text-gray-500 max-w-md">Dokumentasi momen terpilih dari panggung festival, dentuman meriam, denyut nadi jalanan, hingga lanskap dari angkasa.</p>
+                    <p class="text-gray-500 max-w-md">Dokumentasi momen terpilih dari panggung festival, denyut nadi jalanan, hingga lanskap dari angkasa.</p>
                 </div>
                 <div class="flex flex-wrap gap-6 border-b border-gray-200">
-                    <button onclick="showTab('event')" id="btn-event" class="tab-btn pb-2 uppercase text-[10px] tracking-widest transition-all">Event Documentation</button>
+                    <button onclick="showTab('event')" id="btn-event" class="tab-btn active pb-2 uppercase text-[10px] tracking-widest transition-all">Event Documentation</button>
                     <button onclick="showTab('aerial')" id="btn-aerial" class="tab-btn pb-2 uppercase text-[10px] tracking-widest transition-all">Aerial Drone</button>
-                    <button onclick="showTab('street')" id="btn-street" class="tab-btn active pb-2 uppercase text-[10px] tracking-widest transition-all">Street & Life</button>
+                    <button onclick="showTab('street')" id="btn-street" class="tab-btn pb-2 uppercase text-[10px] tracking-widest transition-all">Street & Life</button>
                 </div>
             </div>
 
             <!-- Tab: Event -->
-            <div id="tab-event" class="hidden-tab grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="event-item portfolio-item h-[400px] lg:col-span-2 rounded-xl">
+            <div id="tab-event" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="event-item portfolio-item h-[450px] lg:col-span-2">
                     <img src="images/event1.jpg" onerror="this.src='https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=1200'" class="portfolio-img" alt="Dokumentasi Konser Daniel">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent p-8 flex flex-col justify-end text-white text-left">
-                        <h4 class="text-2xl font-bold italic">Jalak Sakti 2025</h4>
-                        <p class="text-[10px] uppercase tracking-widest opacity-70">Indonesia Air Force Exercise</p>
+                        <h4 class="text-2xl font-bold italic">Jalak Sakti</h4>
+                        <p class="text-[10px] uppercase tracking-widest opacity-70">Indonesian Air Force Excercise</p>
                     </div>
                 </div>
-                <div class="event-item portfolio-item h-[400px] rounded-xl">
+                <div class="event-item portfolio-item h-[450px]">
                     <img src="images/event2.jpg" onerror="this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Aksi Panggung Daniel">
                 </div>
             </div>
 
-
-            
             <!-- Tab: Aerial -->
-            <div id="tab-aerial" class="hidden-tab grid grid-cols-1 md:grid-cols-2 gap-14">
-                <div class="aerial-item portfolio-item md:col-span-2 group h-[60vh] rounded-xl shadow-xl">
-                    <img src="images/aerial4.jpg" onerror="this.src='https://images.unsplash.com/photo-1506477331477-33d6d8b3dc85?auto=format&fit=crop&q=80&w=1500'" class="portfolio-img" alt="Garis Pantai Belitung">
+            <div id="tab-aerial" class="hidden-tab grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="aerial-item portfolio-item md:col-span-2 group h-[65vh] shadow-xl">
+                    <img src="images/aerial1.jpg" 
+                         onerror="this.src='https://images.unsplash.com/photo-1506477331477-33d6d8b3dc85?auto=format&fit=crop&q=80&w=1500'" 
+                         class="portfolio-img" 
+                         style="object-position: center bottom;" 
+                         alt="Garis Pantai Belitung">
                     <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors p-10 flex flex-col justify-end text-white text-left">
                         <h4 class="text-3xl font-bold italic">The Blue Horizon</h4>
                         <p class="text-xs uppercase tracking-widest opacity-80">Belitung Coastline, Aerial View</p>
                     </div>
                 </div>
-                <div class="aerial-item portfolio-item h-[450px] rounded-xl shadow-lg">
+                <div class="aerial-item portfolio-item h-[450px] shadow-lg">
                     <img src="images/aerial2.jpg" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Pantai Batu">
                 </div>
-                <div class="aerial-item portfolio-item h-[450px] rounded-xl shadow-lg">
+                <div class="aerial-item portfolio-item h-[450px] shadow-lg">
                     <img src="images/aerial3.jpg" onerror="this.src='https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Hutan Belitung">
                 </div>
             </div>
 
             <!-- Tab: Street -->
-            <div id="tab-street" class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div class="street-item portfolio-item h-[550px] rounded-lg shadow-md">
+            <div id="tab-street" class="hidden-tab grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="street-item portfolio-item h-[550px] shadow-md">
                     <img src="images/street1.jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Street Photography Daniel 1">
                     <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity p-8 flex flex-col justify-end text-white text-left">
                         <h4 class="text-lg font-bold italic">Human Interest</h4>
                         <p class="text-[10px] uppercase tracking-widest opacity-80">Street Character</p>
                     </div>
                 </div>
-                <div class="street-item portfolio-item h-[550px] rounded-lg shadow-md">
+                <div class="street-item portfolio-item h-[550px] shadow-md">
                     <img src="images/street2.jpg" onerror="this.src='https://images.unsplash.com/photo-1533929736458-ca588d08c8be?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Street Photography Daniel 2">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity p-8 flex flex-col justify-end text-white text-left">
-                        <h4 class="text-lg font-bold">Daily Life</h4>
-                    </div>
                 </div>
-                <div class="street-item portfolio-item h-[550px] rounded-lg shadow-md">
+                <div class="street-item portfolio-item h-[550px] shadow-md">
                     <img src="images/street3.jpg" onerror="this.src='https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Street Photography Daniel 3">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity p-8 flex flex-col justify-end text-white text-left">
-                        <h4 class="text-lg font-bold">Urban Geometry</h4>
-                    </div>
                 </div>
             </div>
         </div>
@@ -195,16 +197,6 @@
                 <div class="lg:col-span-1">
                     <h2 class="text-5xl md:text-6xl mb-8 leading-tight">Investment</h2>
                     <p class="text-gray-400 mb-8 leading-relaxed">Abadikan sejarah Anda melalui lensa profesional. Kualitas file asli dikirimkan melalui Google Drive untuk hasil terbaik.</p>
-                    <div class="space-y-4">
-                        <div class="flex items-center space-x-3 text-sm">
-                            <i class="fa-solid fa-check text-white"></i>
-                            <span class="text-gray-400">File Edit Resolusi Tinggi</span>
-                        </div>
-                        <div class="flex items-center space-x-3 text-sm">
-                            <i class="fa-solid fa-check text-white"></i>
-                            <span class="text-gray-400">Penyuntingan Warna Sinematik</span>
-                        </div>
-                    </div>
                 </div>
                 
                 <div class="lg:col-span-2 grid md:grid-cols-2 gap-8">
@@ -232,7 +224,6 @@
         <div class="max-w-4xl mx-auto px-6">
             <h2 class="text-4xl md:text-6xl mb-12 brand-font italic">Mari Abadikan Momen Bersama</h2>
             <div class="flex flex-wrap justify-center gap-6 mb-16">
-                <!-- Tombol Instagram diperbaiki menjadi Hitam agar Kontras -->
                 <a href="https://www.instagram.com/albumfotodaniel/" target="_blank" class="flex items-center space-x-3 bg-[#121212] text-white px-8 py-3 rounded-full hover:scale-105 transition-transform uppercase text-xs tracking-widest shadow-lg">
                     <i class="fa-brands fa-instagram text-lg"></i> <span>Instagram</span>
                 </a>
@@ -246,14 +237,23 @@
 
     <script>
         function showTab(tabName) {
+            // Sembunyikan semua konten tab
+            document.getElementById('tab-event').classList.add('hidden-tab');
             document.getElementById('tab-aerial').classList.add('hidden-tab');
             document.getElementById('tab-street').classList.add('hidden-tab');
-            document.getElementById('tab-event').classList.add('hidden-tab');
             
-            document.getElementById(`tab-${tabName}`).classList.remove('hidden-tab');
+            // Tampilkan tab yang dipilih
+            const activeTab = document.getElementById(`tab-${tabName}`);
+            if (activeTab) {
+                activeTab.classList.remove('hidden-tab');
+            }
             
+            // Atur gaya tombol aktif
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-${tabName}`).classList.add('active');
+            const activeBtn = document.getElementById(`btn-${tabName}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
         }
 
         function order(product) {
@@ -276,7 +276,4 @@
         });
     </script>
 </body>
-
 </html>
-
-
