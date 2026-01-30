@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Albumfotodaniel | Photography, Videography & Aerial Cinematography</title>
+    <title>Albumfotodaniel | Photography & Cinematography</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
             --bone-white: #F9F8F4;
-            --elegant-black: #121212;
+            --elegant-black: #0A0A0A;
+            --accent-gray: #4A4A4A;
         }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -23,257 +24,299 @@
         }
         
         .glass-nav {
-            background: rgba(18, 18, 18, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .portfolio-item {
             overflow: hidden;
             position: relative;
-            background: #222;
+            background: #1a1a1a;
             cursor: pointer;
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .portfolio-img {
-            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .hero-img {
-            object-position: 50% 30%; 
+        .portfolio-item:hover .portfolio-img {
+            transform: scale(1.1);
         }
 
-        .street-item .portfolio-img {
-            filter: grayscale(100%);
-        }
-        .street-item:hover .portfolio-img {
-            filter: grayscale(0%);
-            transform: scale(1.08);
-        }
-
-        .event-item:hover .portfolio-img {
-            filter: saturate(1.4) contrast(1.1);
-            transform: scale(1.05);
-        }
-
-        .aerial-item:hover .portfolio-img {
-            transform: scale(1.15);
-        }
-
-        .tab-btn {
+        .nav-link {
             opacity: 0.5;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             cursor: pointer;
+            position: relative;
+            padding-bottom: 4px;
         }
-        .tab-btn.active {
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            transition: width 0.4s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link.active {
             opacity: 1;
-            border-bottom: 2px solid var(--elegant-black);
-            font-weight: 800;
+            font-weight: 600;
         }
 
-        .hidden-tab {
-            display: none !important;
+        .page-content {
+            display: none;
+            opacity: 0;
+        }
+        .page-content.active {
+            display: block;
+            animation: slideUpFade 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
         }
 
-        .fade-in-up {
-            animation: fadeInUp 1s ease forwards;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title-bg {
+            font-size: 15vw;
+            line-height: 0.8;
+            opacity: 0.03;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Navigasi -->
-    <nav class="fixed w-full z-50 glass-nav py-5 px-6 md:px-12 flex justify-between items-center text-white">
-        <div class="brand-font text-2xl font-bold tracking-tighter">ALBUMFOTODANIEL</div>
-        <div class="hidden md:flex space-x-10 text-xs font-light uppercase tracking-[0.2em]">
-            <a href="#home" class="hover:text-gray-400 transition-colors">Beranda</a>
-            <a href="#gallery" class="hover:text-gray-400 transition-colors">Portofolio</a>
-            <a href="#pricing" class="hover:text-gray-400 transition-colors">Harga</a>
-            <a href="#contact" class="hover:text-gray-400 transition-colors">Kontak</a>
-        </div>
-        <div class="md:hidden">
-            <i class="fa-solid fa-bars-staggered text-xl"></i>
+    <nav class="fixed w-full z-[100] glass-nav py-6 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center text-white gap-6">
+        <div class="brand-font text-2xl font-bold tracking-tighter cursor-pointer hover:opacity-70 transition-opacity" onclick="showPage('home')">ALBUMFOTODANIEL</div>
+        <div class="flex flex-wrap justify-center gap-6 md:gap-10 text-[10px] font-medium uppercase tracking-[0.25em]">
+            <span onclick="showPage('street')" id="nav-street" class="nav-link">Street</span>
+            <span onclick="showPage('event')" id="nav-event" class="nav-link">Event</span>
+            <span onclick="showPage('video')" id="nav-video" class="nav-link">Video</span>
+            <span onclick="showPage('prewed')" id="nav-prewed" class="nav-link">Prewed</span>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header id="home" class="relative h-screen flex items-center justify-center overflow-hidden bg-black">
-        <div class="absolute inset-0 opacity-70 scale-105">
-            <img src="images/hero_main.jpg" 
-                 onerror="this.src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2000'" 
-                 alt="Foto Utama Daniel" 
-                 class="w-full h-full object-cover hero-img">
-        </div>
-        <div class="relative z-10 text-center px-4 fade-in-up">
-            <span class="text-white text-xs uppercase tracking-[0.5em] mb-4 block opacity-80">Visual Storyteller</span>
-            <h1 class="text-white text-5xl md:text-9xl mb-8 tracking-tighter leading-none">The <span class="italic font-light">Perspective</span></h1>
-            <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
-                <a href="#gallery" class="group bg-white text-black px-12 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300">Jelajahi Karya</a>
-                <p class="text-white text-xs uppercase tracking-widest hidden md:block border-l border-white/30 pl-6">Bangka Belitung, Indonesia</p>
+    <!-- PAGE: HOME -->
+    <div id="page-home" class="page-content active">
+        <header class="relative h-screen flex items-center justify-center overflow-hidden bg-[#050505]">
+            <div class="absolute inset-0 opacity-60 scale-110">
+                <img src="images/hero_main.jpg" onerror="this.src='https://images.unsplash.com/photo-1493863641943-9b68992a8d07?auto=format&fit=crop&q=80&w=2000'" class="w-full h-full object-cover">
             </div>
-        </div>
-    </header>
-
-    <!-- Bagian Portofolio -->
-    <section id="gallery" class="py-24 px-6 md:px-12 bg-[#F9F8F4]">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-                <div>
-                    <h2 class="text-5xl md:text-7xl mb-4">Curated Works</h2>
-                    <p class="text-gray-500 max-w-md">Dokumentasi momen terpilih dari panggung festival, denyut nadi jalanan, hingga lanskap dari angkasa.</p>
-                </div>
-                <div class="flex flex-wrap gap-6 border-b border-gray-200">
-                    <button onclick="showTab('event')" id="btn-event" class="tab-btn active pb-2 uppercase text-[10px] tracking-widest transition-all">Event Documentation</button>
-                    <button onclick="showTab('aerial')" id="btn-aerial" class="tab-btn pb-2 uppercase text-[10px] tracking-widest transition-all">Aerial Drone</button>
-                    <button onclick="showTab('street')" id="btn-street" class="tab-btn pb-2 uppercase text-[10px] tracking-widest transition-all">Street & Life</button>
+            <div class="relative z-10 text-center px-4">
+                <p class="text-white text-[10px] uppercase tracking-[0.8em] mb-6 opacity-60">Visual Storytelling • Belitung Based</p>
+                <h1 class="text-white text-7xl md:text-[12rem] mb-12 tracking-tighter leading-none font-bold">Daniel<span class="italic font-light opacity-50">.</span></h1>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    <button onclick="showPage('event')" class="bg-white text-black px-16 py-5 text-[10px] font-bold uppercase tracking-widest hover:invert transition-all duration-500">View Archive</button>
                 </div>
             </div>
+        </header>
+    </div>
 
-            <!-- Tab: Event -->
-            <div id="tab-event" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="event-item portfolio-item h-[450px] lg:col-span-2">
-                    <img src="images/event1.jpg" onerror="this.src='https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=1200'" class="portfolio-img" alt="Dokumentasi Konser Daniel">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent p-8 flex flex-col justify-end text-white text-left">
-                        <h4 class="text-2xl font-bold italic">Jalak Sakti</h4>
-                        <p class="text-[10px] uppercase tracking-widest opacity-70">Indonesian Air Force Excercise</p>
-                    </div>
+    <!-- PAGE: STREET -->
+    <div id="page-street" class="page-content pt-40 pb-24 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto relative">
+            <div class="section-title-bg brand-font">STREET</div>
+            <div class="grid lg:grid-cols-12 gap-12 items-center mb-20">
+                <div class="lg:col-span-5">
+                    <h2 class="text-6xl md:text-8xl mb-6 font-bold leading-none">The <span class="italic font-normal">Pulse</span></h2>
+                    <p class="text-gray-500 leading-relaxed mb-8 italic">"Menangkap detak jantung jalanan yang jujur. Di mana setiap sudut Manggar bercerita tanpa perlu bersuara."</p>
                 </div>
-                <div class="event-item portfolio-item h-[450px]">
-                    <img src="images/event2.jpg" onerror="this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Aksi Panggung Daniel">
+                <div class="lg:col-span-7 grid grid-cols-2 gap-4">
+                    <div class="portfolio-item h-80 translate-y-8"><img src="images/street1.jpg" onerror="this.src='https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800'" class="portfolio-img"></div>
+                    <div class="portfolio-item h-80"><img src="images/street2.jpg" onerror="this.src='https://images.unsplash.com/photo-1533929736458-ca588d08c8be?w=800'" class="portfolio-img"></div>
                 </div>
             </div>
+            <div class="portfolio-item h-[600px] mb-20"><img src="images/street3.jpg" onerror="this.src='https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200'" class="portfolio-img"></div>
 
-            <!-- Tab: Aerial -->
-            <div id="tab-aerial" class="hidden-tab grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="aerial-item portfolio-item md:col-span-2 group h-[65vh] shadow-xl">
-                    <img src="images/aerial1.jpg" 
-                         onerror="this.src='https://images.unsplash.com/photo-1506477331477-33d6d8b3dc85?auto=format&fit=crop&q=80&w=1500'" 
-                         class="portfolio-img" 
-                         style="object-position: center bottom;" 
-                         alt="Garis Pantai Belitung">
-                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors p-10 flex flex-col justify-end text-white text-left">
-                        <h4 class="text-3xl font-bold italic">The Blue Horizon</h4>
-                        <p class="text-xs uppercase tracking-widest opacity-80">Belitung Coastline, Aerial View</p>
-                    </div>
+            <div class="bg-[#0A0A0A] p-12 md:p-20 rounded-2xl text-white flex flex-col md:flex-row justify-between items-center gap-10">
+                <div class="max-w-md text-center md:text-left">
+                    <h4 class="text-4xl font-bold mb-4 italic">Street Story</h4>
+                    <p class="text-gray-500 text-sm mb-0">Dokumentasi human interest, karakter, dan esensi keseharian.</p>
                 </div>
-                <div class="aerial-item portfolio-item h-[450px] shadow-lg">
-                    <img src="images/aerial2.jpg" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Pantai Batu">
-                </div>
-                <div class="aerial-item portfolio-item h-[450px] shadow-lg">
-                    <img src="images/aerial3.jpg" onerror="this.src='https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Hutan Belitung">
-                </div>
-            </div>
-
-            <!-- Tab: Street -->
-            <div id="tab-street" class="hidden-tab grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="street-item portfolio-item h-[550px] shadow-md">
-                    <img src="images/street1.jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Street Photography Daniel 1">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity p-8 flex flex-col justify-end text-white text-left">
-                        <h4 class="text-lg font-bold italic">Human Interest</h4>
-                        <p class="text-[10px] uppercase tracking-widest opacity-80">Street Character</p>
-                    </div>
-                </div>
-                <div class="street-item portfolio-item h-[550px] shadow-md">
-                    <img src="images/street2.jpg" onerror="this.src='https://images.unsplash.com/photo-1533929736458-ca588d08c8be?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Street Photography Daniel 2">
-                </div>
-                <div class="street-item portfolio-item h-[550px] shadow-md">
-                    <img src="images/street3.jpg" onerror="this.src='https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&q=80&w=800'" class="portfolio-img" alt="Street Photography Daniel 3">
+                <div class="text-center">
+                    <div class="text-xs uppercase tracking-widest opacity-40 mb-2">Investment</div>
+                    <div class="text-6xl font-bold mb-6">500k</div>
+                    <button onclick="order('Street Session')" class="bg-white text-black px-12 py-4 font-bold uppercase text-[10px] tracking-widest hover:bg-gray-200 transition-all">Book Now</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Paket Harga -->
-    <section id="pricing" class="py-24 bg-[#121212] text-white">
-        <div class="max-w-7xl mx-auto px-6 md:px-12">
-            <div class="grid lg:grid-cols-3 gap-12 text-left">
-                <div class="lg:col-span-1">
-                    <h2 class="text-5xl md:text-6xl mb-8 leading-tight">Investment</h2>
-                    <p class="text-gray-400 mb-8 leading-relaxed">Abadikan sejarah Anda melalui lensa profesional. Kualitas file asli dikirimkan melalui Google Drive untuk hasil terbaik.</p>
+    <!-- PAGE: EVENT -->
+    <div id="page-event" class="page-content pt-40 pb-24 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto relative">
+            <div class="section-title-bg brand-font">STAGE</div>
+            <div class="text-center mb-24">
+                <h2 class="text-7xl md:text-[10rem] mb-6 font-bold leading-none italic">Euphoria</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Dari panggung ke panggung, mengabadikan energi yang takkan terulang. Setiap cahaya dan keringat adalah bagian dari sejarah musik Anda.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+                <div class="portfolio-item h-[600px] md:col-span-2"><img src="images/event1.jpg" onerror="this.src='https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200'" class="portfolio-img"></div>
+                <div class="flex flex-col gap-6">
+                    <div class="portfolio-item h-[288px]"><img src="images/event2.jpg" onerror="this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800'" class="portfolio-img"></div>
+                    <div class="portfolio-item h-[288px]"><img src="images/event3.jpg" onerror="this.src='https://images.unsplash.com/photo-1514525253361-bee8718a74a2?w=800'" class="portfolio-img"></div>
                 </div>
-                
-                <div class="lg:col-span-2 grid md:grid-cols-2 gap-8">
-                    <div class="p-10 border border-gray-800 hover:border-white transition-all bg-[#1a1a1a] rounded-xl group">
-                        <h4 class="text-2xl font-bold mb-2">Event Coverage</h4>
-                        <p class="text-[10px] text-gray-500 mb-8 uppercase tracking-widest">Konser, Festival, Acara Komunitas</p>
-                        <div class="text-4xl font-bold mb-8">Rp. 1.000k</div>
-                        <button onclick="order('Event Coverage')" class="w-full py-4 bg-white text-black font-bold uppercase text-[10px] tracking-widest hover:invert transition-all">Pesan Sekarang</button>
-                    </div>
-
-                    <div class="p-10 border-2 border-white transition-all bg-[#1a1a1a] rounded-xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 bg-white text-black text-[8px] px-4 py-1 uppercase font-black">Unggulan</div>
-                        <h4 class="text-2xl font-bold mb-2">Aerial & Ground</h4>
-                        <p class="text-[10px] text-gray-500 mb-8 uppercase tracking-widest">Video Sinematik 4K</p>
-                        <div class="text-4xl font-bold mb-8">Rp. 1.700k</div>
-                        <button onclick="order('Aerial Ground')" class="w-full py-4 bg-white text-black font-bold uppercase text-[10px] tracking-widest hover:invert transition-all">Pesan Sekarang</button>
-                    </div>
+            </div>
+            <div class="bg-white border-[1px] border-black/10 p-12 md:p-20 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-10 shadow-2xl">
+                <div class="max-w-md">
+                    <h4 class="text-4xl font-bold mb-4">Event Coverage</h4>
+                    <p class="text-gray-500 text-sm mb-6">Konser, Festival, & Gathering. Dokumentasi tanpa batas dengan pengiriman ekspres 24 jam.</p>
+                    <ul class="text-xs space-y-3 uppercase tracking-widest font-semibold opacity-60">
+                        <li>• Full Duration Coverage</li>
+                        <li>• High-End Color Grading</li>
+                        <li>• Professional Delivery</li>
+                    </ul>
+                </div>
+                <div class="text-center border-t md:border-t-0 md:border-l border-black/10 pt-10 md:pt-0 md:pl-20">
+                    <div class="text-6xl font-bold mb-6">1.000k</div>
+                    <button onclick="order('Event Stage')" class="bg-black text-white px-12 py-5 font-bold uppercase text-[10px] tracking-widest hover:bg-gray-800 transition-all">Secure the Date</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- PAGE: VIDEO -->
+    <div id="page-video" class="page-content pt-40 pb-24 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto relative">
+            <div class="section-title-bg brand-font">MOTION</div>
+            <h2 class="text-6xl md:text-8xl mb-12 font-bold italic">Cinematic <span class="font-light not-italic text-gray-400">View</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+                <!-- Video Section Baru -->
+                <div class="portfolio-item h-[70vh] group">
+                    <div class="video-container">
+                        <video autoplay muted loop playsinline poster="images/aerial1.jpg">
+                            <source src="video/hasil_drone.mp4" type="video/mp4">
+                            <!-- Fallback Video jika lokal tidak ada (untuk demo) -->
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-beach-with-turquoise-water-1613-large.mp4" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all"></div>
+                        <div class="absolute bottom-6 right-6 text-white/50 text-[10px] uppercase tracking-widest">
+                            <i class="fa-solid fa-expand mr-2"></i> Preview Clip
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-8">
+                    <p class="text-xl md:text-2xl leading-relaxed text-gray-500 italic">"Melihat Belitung dari perspektif yang berbeda. Menggabungkan ketenangan dari udara dan dinamika dari daratan."</p>
+                    <!-- Small Video Item -->
+                    <div class="portfolio-item h-full">
+                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-top-view-of-a-beach-with-waves-4433-large.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-[#0A0A0A] p-12 md:p-20 rounded-3xl text-white text-center">
+                <h4 class="text-3xl font-bold mb-8 tracking-widest uppercase">Aerial & Cinematic Ground</h4>
+                <div class="text-7xl font-bold mb-8">1.700k</div>
+                <p class="text-gray-500 mb-10 max-w-lg mx-auto">4K Video Resolution • Professional Drone Pilot • 60-Second Cinematic Cut • G-Drive High Res Link</p>
+                <button onclick="order('Cinematic Video')" class="bg-white text-black px-16 py-5 font-bold uppercase text-[10px] tracking-widest hover:invert transition-all">Start Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: PREWED -->
+    <div id="page-prewed" class="page-content pt-40 pb-24 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto relative">
+            <div class="section-title-bg brand-font">LOVERS</div>
+            <div class="flex flex-col md:flex-row justify-between items-baseline mb-16 gap-6">
+                <h2 class="text-7xl md:text-9xl font-bold italic">Ever After<span class="text-gray-300">.</span></h2>
+                <p class="text-gray-400 max-w-sm">"Karena setiap cinta punya warna, dan tugas saya adalah melukisnya kembali dalam bingkai abadi."</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+                <div class="portfolio-item h-[500px] md:col-span-2"><img src="images/prewed1.jpg" onerror="this.src='https://images.unsplash.com/photo-1519741497674-611481863552?w=800'" class="portfolio-img"></div>
+                <div class="portfolio-item h-[500px]"><img src="images/prewed2.jpg" onerror="this.src='https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800'" class="portfolio-img"></div>
+                <div class="portfolio-item h-[500px] mt-12"><img src="images/prewed3.jpg" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164848374c0f?w=800'" class="portfolio-img"></div>
+            </div>
+            <div class="max-w-4xl mx-auto bg-white border-2 border-black p-12 md:p-20 text-center rounded-sm">
+                <span class="text-[10px] uppercase tracking-[0.5em] text-gray-400 mb-6 block">Premium Wedding Session</span>
+                <h4 class="text-5xl font-bold mb-8 italic">The Prewedding</h4>
+                <div class="text-6xl font-bold mb-10">1.700k</div>
+                <div class="grid md:grid-cols-2 gap-6 text-left mb-12 opacity-70 text-sm">
+                    <div>• Full Day Storytelling Session</div>
+                    <div>• Cinematic Color Grading</div>
+                    <div>• High-Res Google Drive Link</div>
+                    <div>• Exclusive 16R Frame Included</div>
+                </div>
+                <button onclick="order('Prewedding')" class="w-full bg-black text-white py-6 font-bold uppercase text-xs tracking-widest hover:bg-gray-800 transition-all">Check Availability</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer & Kontak -->
-    <footer id="contact" class="py-24 bg-white text-center">
+    <footer id="contact" class="py-32 bg-[#0A0A0A] text-white text-center">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-4xl md:text-6xl mb-12 brand-font italic">Mari Abadikan Momen Bersama</h2>
-            <div class="flex flex-wrap justify-center gap-6 mb-16">
-                <a href="https://www.instagram.com/albumfotodaniel/" target="_blank" class="flex items-center space-x-3 bg-[#121212] text-white px-8 py-3 rounded-full hover:scale-105 transition-transform uppercase text-xs tracking-widest shadow-lg">
+            <h2 class="text-5xl md:text-7xl mb-16 brand-font italic">Ready to make history?</h2>
+            <div class="flex flex-wrap justify-center gap-8 mb-20">
+                <a href="https://www.instagram.com/albumfotodaniel/" target="_blank" class="flex items-center space-x-4 border border-white/20 px-10 py-4 rounded-full hover:bg-white hover:text-black transition-all uppercase text-[10px] tracking-widest">
                     <i class="fa-brands fa-instagram text-lg"></i> <span>Instagram</span>
                 </a>
-                <a href="https://wa.me/6287897884071" target="_blank" class="flex items-center space-x-3 bg-[#25D366] text-white px-8 py-3 rounded-full hover:scale-105 transition-transform uppercase text-xs tracking-widest shadow-lg">
+                <a href="https://wa.me/6287897884071" target="_blank" class="flex items-center space-x-4 border border-white/20 px-10 py-4 rounded-full hover:bg-white hover:text-black transition-all uppercase text-[10px] tracking-widest">
                     <i class="fa-brands fa-whatsapp text-lg"></i> <span>WhatsApp</span>
                 </a>
             </div>
-            <p class="text-[10px] uppercase tracking-[0.3em] text-gray-400">© 2026 Albumfotodaniel. Diabadikan di Manggar, Belitung Timur.</p>
+            <div class="flex flex-col md:flex-row justify-between items-center pt-20 border-t border-white/10 gap-8">
+                <div class="brand-font text-xl opacity-40 uppercase tracking-tighter">Albumfotodaniel</div>
+                <p class="text-[8px] uppercase tracking-[0.5em] text-gray-500">Bangka Belitung • Indonesia • 2026 Edition</p>
+            </div>
         </div>
     </footer>
 
     <script>
-        function showTab(tabName) {
-            // Sembunyikan semua konten tab
-            document.getElementById('tab-event').classList.add('hidden-tab');
-            document.getElementById('tab-aerial').classList.add('hidden-tab');
-            document.getElementById('tab-street').classList.add('hidden-tab');
-            
-            // Tampilkan tab yang dipilih
-            const activeTab = document.getElementById(`tab-${tabName}`);
-            if (activeTab) {
-                activeTab.classList.remove('hidden-tab');
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if(targetPage) {
+                targetPage.classList.add('active');
             }
             
-            // Atur gaya tombol aktif
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById(`btn-${tabName}`);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            if(pageId !== 'home') {
+                const navBtn = document.getElementById(`nav-${pageId}`);
+                if(navBtn) navBtn.classList.add('active');
             }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function order(product) {
-            const msg = `Halo Daniel, saya tertarik dengan paket ${product}. Bisa minta detailnya?`;
+            const msg = `Halo Daniel, saya tertarik untuk kolaborasi di paket ${product}. Bisa cek ketersediaan tanggal?`;
             window.open(`https://wa.me/6287897884071?text=${encodeURIComponent(msg)}`, '_blank');
         }
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
-                    entry.target.classList.remove('opacity-0', 'translate-y-12');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.portfolio-item, .p-10').forEach(el => {
-            el.classList.add('opacity-0', 'translate-y-12', 'transition-all', 'duration-1000');
-            observer.observe(el);
-        });
     </script>
 </body>
 </html>
