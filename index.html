@@ -100,17 +100,30 @@
             pointer-events: none;
         }
 
-        .video-container {
+        /* Video Ratio Wrapper */
+        .video-ratio-box {
             position: relative;
             width: 100%;
-            height: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio (2160/3840 * 100) */
+            background: #000;
+            border-radius: 0.5rem;
             overflow: hidden;
+        }
+
+        .video-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px; /* Ruang di samping dan atas bawah */
         }
         
         video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 0.25rem;
         }
     </style>
 </head>
@@ -182,10 +195,10 @@
                 <p class="text-gray-400 max-w-2xl mx-auto">Dari panggung ke panggung, mengabadikan energi yang takkan terulang. Setiap cahaya dan keringat adalah bagian dari sejarah musik Anda.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-                <div class="portfolio-item h-[600px] md:col-span-2"><img src="images/event1.jpeg" onerror="this.src='https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200'" class="portfolio-img"></div>
+                <div class="portfolio-item h-[600px] md:col-span-2"><img src="images/event1.jpg" onerror="this.src='https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200'" class="portfolio-img"></div>
                 <div class="flex flex-col gap-6">
-                    <div class="portfolio-item h-[288px]"><img src="images/event2.jpeg" onerror="this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800'" class="portfolio-img"></div>
-                    <div class="portfolio-item h-[288px]"><img src="images/event3.jpeg" onerror="this.src='https://images.unsplash.com/photo-1514525253361-bee8718a74a2?w=800'" class="portfolio-img"></div>
+                    <div class="portfolio-item h-[288px]"><img src="images/event2.jpg" onerror="this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800'" class="portfolio-img"></div>
+                    <div class="portfolio-item h-[288px]"><img src="images/event3.jpg" onerror="this.src='https://images.unsplash.com/photo-1514525253361-bee8718a74a2?w=800'" class="portfolio-img"></div>
                 </div>
             </div>
             <div class="bg-white border-[1px] border-black/10 p-12 md:p-20 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-10 shadow-2xl">
@@ -211,31 +224,35 @@
         <div class="max-w-7xl mx-auto relative">
             <div class="section-title-bg brand-font">MOTION</div>
             <h2 class="text-6xl md:text-8xl mb-12 font-bold italic">Cinematic <span class="font-light not-italic text-gray-400">View</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-                <!-- Video Section Baru -->
-                <div class="portfolio-item h-[70vh] group">
-                    <div class="video-container">
-                        <video autoplay muted loop playsinline poster="images/aerial1.jpg">
-                            <source src="video/hasil_drone.mp4" type="video/mp4">
-                            <!-- Fallback Video jika lokal tidak ada (untuk demo) -->
-                            <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-beach-with-turquoise-water-1613-large.mp4" type="video/mp4">
-                        </video>
-                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-all"></div>
-                        <div class="absolute bottom-6 right-6 text-white/50 text-[10px] uppercase tracking-widest">
-                            <i class="fa-solid fa-expand mr-2"></i> Preview Clip
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20 items-start">
+                <!-- Video Section (Kiri - 2 Kolom) -->
+                <div class="lg:col-span-2">
+                    <div class="video-ratio-box shadow-2xl">
+                        <div class="video-inner">
+                            <video autoplay muted loop playsinline poster="images/aerial1.jpg">
+                                <source src="video/hasil_drone.mp4" type="video/mp4">
+                                <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-beach-with-turquoise-water-1613-large.mp4" type="video/mp4">
+                            </video>
                         </div>
                     </div>
+                    <p class="mt-6 text-gray-500 text-sm italic">Video Preview: Cinematic Drone Footage - Manggar, Belitung Timur.</p>
                 </div>
-                <div class="flex flex-col gap-8">
-                    <p class="text-xl md:text-2xl leading-relaxed text-gray-500 italic">"Melihat Belitung dari perspektif yang berbeda. Menggabungkan ketenangan dari udara dan dinamika dari daratan."</p>
-                    <!-- Small Video Item -->
-                    <div class="portfolio-item h-full">
-                        <video autoplay muted loop playsinline class="w-full h-full object-cover">
-                            <source src="images/aerial1.jpg">
-                        </video>
+
+                <!-- Foto Aerial (Kanan - 1 Kolom) -->
+                <div class="flex flex-col gap-6">
+                    <div class="portfolio-item h-64">
+                        <img src="images/aerial1.jpg" onerror="this.src='https://images.unsplash.com/photo-1506477331477-33d6d8b3dc85?w=800'" class="portfolio-img">
+                        <div class="absolute top-4 left-4 bg-black/50 text-white text-[8px] px-2 py-1 uppercase tracking-widest">Top View</div>
                     </div>
+                    <div class="portfolio-item h-64">
+                        <img src="images/aerial2.jpg" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800'" class="portfolio-img">
+                        <div class="absolute top-4 left-4 bg-black/50 text-white text-[8px] px-2 py-1 uppercase tracking-widest">Coastline</div>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed uppercase tracking-tighter">"Setiap frame adalah perspektif baru dari keindahan pulau Laskar Pelangi."</p>
                 </div>
             </div>
+
             <div class="bg-[#0A0A0A] p-12 md:p-20 rounded-3xl text-white text-center">
                 <h4 class="text-3xl font-bold mb-8 tracking-widest uppercase">Aerial & Cinematic Ground</h4>
                 <div class="text-7xl font-bold mb-8">1.700k</div>
@@ -320,5 +337,3 @@
     </script>
 </body>
 </html>
-
-
